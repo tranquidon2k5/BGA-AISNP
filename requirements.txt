@@ -1,0 +1,14 @@
+# Core
+numpy>=1.24
+pandas>=2.0
+
+# Machine learning
+scikit-learn>=1.3,<1.6
+xgboost>=2.0
+
+# Optional (tiện cho sau này vẽ biểu đồ, report)
+matplotlib>=3.8
+seaborn>=0.13
+
+# Nếu dùng Jupyter để nghịch thêm
+jupyterlab>=4.0
