@@ -22,6 +22,12 @@ Dự án hỗ trợ hai loại mô hình:
 - 📈 Đánh giá hiệu suất chi tiết (accuracy, classification report, confusion matrix)
 - 💾 Pipeline inference hoàn chỉnh
 
+## 📂 Dữ Liệu
+
+- **RAW**: dữ liệu AISNP gốc (VCF, bảng panel và phụ lục paper) được lưu trong `data/1kgp_58AISNPs_*`, `data/1-s2.0-...xlsx`, `data/integrated_call_samples_v3.20130502.ALL.panel.txt`. Các file này dùng cho bước trích xuất và chưa encode thành số.
+- **Đã xử lý**: `data/AISNP_by_sample_continental.csv` và `data/AISNP_by_sample_eastasian.csv` là đầu ra của `data/convert_aisnp_by_sample.py`, mỗi dòng là một sample cùng allele `_1/_2`. Các script train sẽ encode về 0/1/2 trước khi train.
+- **Split**: repo không lưu sẵn train/dev/test; mỗi script train dùng `train_test_split(test_size=0.2, random_state=42, stratify=label)` để tạo train/test tạm thời. Thông tin chi tiết hơn xem `data.txt`.
+
 ## 📁 Cấu Trúc Dự Án
 
 ```
@@ -172,6 +178,14 @@ python scripts/feature_importance.py
 
 Xác định các SNPs quan trọng nhất cho việc phân loại.
 
+#### Chạy Toàn Bộ & Xuất Báo Cáo
+
+```bash
+bash scripts/run_all_models.sh
+```
+
+Script này huấn luyện lại XGBoost + Generative Bayesian cho cả hai tầng, tính Accuracy, MCC, macro F1, AUC từng lớp, vẽ heatmap confusion matrix và xuất kết quả vào `reports/aggregated_results/model_metrics.xlsx`. Đây là cách nhanh nhất để tái lập toàn bộ bảng so sánh.
+
 ## 🔬 Mô Hình
 
 ### XGBoost
@@ -278,4 +292,3 @@ Mọi đóng góp đều được chào đón! Vui lòng tạo issue hoặc pull
 ---
 
 **Lưu ý**: Dự án này phục vụ mục đích nghiên cứu. Việc sử dụng trong các ứng dụng lâm sàng hoặc pháp y cần được xem xét cẩn thận về tính đạo đức và pháp lý.
-

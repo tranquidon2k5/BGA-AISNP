@@ -1,0 +1,16 @@
+# Tổng quan dữ liệu
+
+## 1. Tập dữ liệu gốc (raw)
+- `data/1-s2.0-S0379073824000562-mmc1.xlsx`: bảng AISNP từ phụ lục bài báo gốc, chứa danh sách 58 SNP (24 continental + 34 East Asian) và metadata phục vụ lọc.
+- `data/1kgp_58AISNPs_out/` & `data/1kgp_58AISNPs_tmp/`: thư mục trung gian khi trích xuất AISNP từ bộ 1000 Genomes (VCF → ma trận genotype). Các file lớn giữ nguyên cấu trúc gốc, chưa encode thành 0/1/2.
+- `data/integrated_call_samples_v3.20130502.ALL.panel.txt`: bảng panel chính thức của 1000 Genomes chứa thông tin `sample-pop-super_pop` dùng để gắn nhãn.
+- `data/merge_matrix.csv` và `data/AISNP_list.csv`: bản sao nội bộ của ma trận genotype thô & danh sách AISNP dùng cho script chuyển đổi. Các file này chưa sẵn sàng để train vì vẫn ở dạng allele hoặc mã VCF (0|1).
+
+## 2. Tập dữ liệu đã tiền xử lý
+- `data/AISNP_by_sample_continental.csv`: output của `data/convert_aisnp_by_sample.py`. Mỗi dòng là một sample, các cột `rsXXX_1/rsXXX_2` lưu allele, sẵn cho bước encode về 0/1/2 trước khi train mô hình tầng châu lục.
+- `data/AISNP_by_sample_eastasian.csv`: tương tự nhưng chỉ bao gồm SNP dành cho tầng Đông Á. Script train sẽ lọc `super_pop == "EAS"` để lấy đúng tập con.
+- `data/AISNP_by_sample_EAS_only.csv`: phiên bản rút gọn đã lọc sẵn các sample Đông Á; hữu ích khi muốn thao tác nhanh trong notebook.
+
+## 3. Train/Dev/Test
+- Repo không lưu sẵn split train/dev/test cố định. Tất cả các script train (`train_continental_xgb.py`, `train_eastasian_xgb.py`, `train_generative_bga.py`, `run_all_models.py`) tự tạo split mỗi lần chạy bằng `train_test_split` với `test_size=0.2`, `shuffle=True`, `stratify=y`, `random_state=42`. Điều này đảm bảo reproducible nhưng không sinh thêm bộ dev riêng.
+- Do không có bộ dev, việc tuning (ví dụ `tune_eastasian_xgb.py`) dùng cross-validation (`StratifiedKFold n_splits=5`) trực tiếp trên toàn bộ tập EAS. Khi cần báo cáo cuối cùng, nên chạy script một lần và lưu lại seed cùng log để tái tạo kết quả.
