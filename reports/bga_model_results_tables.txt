@@ -1,0 +1,40 @@
+% Stage 1: Continental classification metrics
+
+\begin{table}
+\caption{Stage 1: Continental classification metrics}
+\label{tab:stage1_metrics}
+\begin{tabular}{lrrr}
+\toprule
+Model & Accuracy & Macro-F1 & Weighted-F1 \\
+\midrule
+XGB & 0.9787 & 0.9752 & 0.9786 \\
+Generative & 0.9787 & 0.9749 & 0.9784 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+
+
+% Stage 2: Grouped population metrics by continent
+
+\begin{table}
+\caption{Stage 2: Grouped population metrics by continent}
+\label{tab:stage2_metrics}
+\begin{tabular}{llrrr}
+\toprule
+Continent & Model & Accuracy & Macro-F1 & Weighted-F1 \\
+\midrule
+AFR & Generative & 0.6535 & 0.6605 & 0.6538 \\
+ & XGB & 0.6535 & 0.6567 & 0.6508 \\
+AMR & Generative & 0.7857 & 0.7947 & 0.7847 \\
+ & XGB & 0.6714 & 0.6777 & 0.6726 \\
+EAS & Generative & 0.9505 & 0.9546 & 0.9504 \\
+ & XGB & 0.9307 & 0.9268 & 0.9310 \\
+EUR & Generative & 0.8713 & 0.8706 & 0.8710 \\
+ & XGB & 0.8119 & 0.7898 & 0.8052 \\
+SAS & Generative & 0.5816 & 0.5562 & 0.5837 \\
+ & XGB & 0.4796 & 0.4510 & 0.4711 \\
+\bottomrule
+\end{tabular}
+\end{table}
